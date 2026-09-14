@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  /* Third typeface, used for dates/timestamps and code-flavoured labels — a
+     small nod to the dev-portfolio subject matter and the "more font
+     variety" ask, kept to a narrow, deliberate role rather than sprinkled
+     everywhere. */
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: #0a0a0a;
+  --color-bg-soft: #101010;
+  --color-surface: #161616;
+  --color-surface-2: #1e1e1e;
+  --color-border: #2c2c2c;
+  --color-text: #f5f5f0;
+  --color-text-muted: #9a9a92;
+  --color-accent: #c6f135;
+  --color-accent-2: #e8ff7a;
+  --color-accent-3: #8fd93f;
+  --color-accent-cool: #5eead4;
+  --color-accent-cool-2: #38bdf8;
+  --color-accent-warm: #fb923c;
+  --color-accent-pink: #f472b6;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-2);
+    border-radius: 999px;
+    border: 2px solid var(--color-bg);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-gradient {
+    background: linear-gradient(90deg, var(--color-accent-2), var(--color-accent), var(--color-accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .section-shell {
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent-2);
+    font-weight: 600;
+  }
+
+  .glass-panel {
+    background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Small pill CTA used for in-card / in-page links like "View details".
+     Solid, bordered, and grows a filled background on hover so it reads
+     clearly as an actionable button rather than plain text. */
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent-2);
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .btn-pill:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #0a0a0a;
+    transform: translateY(-1px);
+  }
+
+  /* A quieter variant for secondary/back-navigation links. */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    color: color-mix(in srgb, var(--color-text) 65%, transparent);
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  }
+  .btn-ghost:hover {
+    border-color: color-mix(in srgb, var(--color-text) 40%, transparent);
+    color: var(--color-text);
+    background: color-mix(in srgb, white 4%, transparent);
+  }
+
+  /* Section divider: a soft gradient rule that gives each section a clear
+     visual seam and a small burst of colour beyond the single lime accent. */
+  .section-divider {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--divider-color, var(--color-accent)) 50%,
+      transparent 100%
+    );
+    opacity: 0.5;
+  }
+  .section-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--divider-color, var(--color-accent));
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px 2px var(--divider-color, var(--color-accent));
+  }
+
+  /* Small uppercase label used above a Gallery photo group — same weight
+     class as .kicker but sized down a notch since it sits inside a section
+     that already has its own kicker/heading above it. */
+  .group-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--group-color, var(--color-accent-2));
+  }
+  .group-label::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--group-color, var(--color-accent-2));
+    flex-shrink: 0;
+  }
+}
