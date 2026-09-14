@@ -250,7 +250,7 @@ export default function Gallery() {
             In the field
           </GradientText>
         </h2>
-        <p className="text-white/60 max-w-2xl mb-14 leading-relaxed text-justify hyphens-auto">
+        <p className="text-white/60 max-w-2xl mb-14 leading-relaxed sm:text-justify hyphens-auto">
           Building things is only half of it. The other half happens off-screen: testing headsets on
           real users to see whether an interaction actually lands, presenting finished builds to a
           room of lecturers and students, training the next batch of student videographers through

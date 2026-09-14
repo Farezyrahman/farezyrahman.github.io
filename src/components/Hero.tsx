@@ -37,7 +37,7 @@ export default function Hero() {
 
             <div className="text-xl sm:text-2xl text-white/70 font-display h-9 mb-8">
               <TextType
-                text={['VR / AR Developer', 'AI & Computer Vision Engineer', 'Full-Stack Developer']}
+                text={['VR / AR Developer', 'AI & Computer Vision Engineer', 'Full-Stack Developer', 'Vibe Coder']}
                 typingSpeed={55}
                 pauseDuration={1800}
                 deletingSpeed={30}

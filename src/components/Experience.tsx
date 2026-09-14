@@ -70,15 +70,17 @@ export default function Experience() {
           {/* Photo mosaic: wide team shot on top, then the office wall and a
               portrait side by side — each at an aspect that fits the photo
               instead of cropping everything to the same tall box. */}
-          <div className="grid grid-cols-2 gap-4 h-fit lg:sticky lg:top-24">
-            <AnimatedContent distance={30} className="col-span-2">
+          {/* One column on a phone — side-by-side tiles get too small there for
+              the caption overlay to stay readable. */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-fit lg:sticky lg:top-24">
+            <AnimatedContent distance={30} className="sm:col-span-2">
               <InternPhotoTile photo={INTERN_PHOTOS[0]} className="w-full aspect-[4/3]" onOpen={() => setOpen(INTERN_PHOTOS[0])} />
             </AnimatedContent>
             <AnimatedContent distance={30} delay={0.08}>
-              <InternPhotoTile photo={INTERN_PHOTOS[1]} className="w-full aspect-[4/5]" onOpen={() => setOpen(INTERN_PHOTOS[1])} />
+              <InternPhotoTile photo={INTERN_PHOTOS[1]} className="w-full aspect-[4/3] sm:aspect-[4/5]" onOpen={() => setOpen(INTERN_PHOTOS[1])} />
             </AnimatedContent>
             <AnimatedContent distance={30} delay={0.16}>
-              <InternPhotoTile photo={INTERN_PHOTOS[2]} className="w-full aspect-[4/5]" onOpen={() => setOpen(INTERN_PHOTOS[2])} />
+              <InternPhotoTile photo={INTERN_PHOTOS[2]} className="w-full aspect-[4/3] sm:aspect-[4/5]" onOpen={() => setOpen(INTERN_PHOTOS[2])} />
             </AnimatedContent>
           </div>
 
@@ -88,7 +90,7 @@ export default function Experience() {
               <span className="font-mono text-[11px] text-white/40">{internship.period}</span>
             </div>
             <p className="text-sm text-[var(--color-accent)] mb-4">{internship.company}</p>
-            <p className="text-sm text-white/60 leading-relaxed mb-6 text-justify hyphens-auto">{internship.summary}</p>
+            <p className="text-sm text-white/60 leading-relaxed mb-6 sm:text-justify hyphens-auto">{internship.summary}</p>
 
             <div className="space-y-4">
               {internship.rotations.map((rotation, i) => (

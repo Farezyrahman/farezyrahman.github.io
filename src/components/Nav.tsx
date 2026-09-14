@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { FiMenu, FiX } from 'react-icons/fi';
 
 const LINKS = [
   { label: 'About', href: '#about', id: 'about' },
@@ -15,6 +16,8 @@ const SECTION_IDS = LINKS.map((l) => l.id);
 export default function Nav({ isDetailView = false }: { isDetailView?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -22,6 +25,24 @@ export default function Nav({ isDetailView = false }: { isDetailView?: boolean }
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Escape closes the mobile menu; so does growing past the mobile breakpoint
+  // (otherwise rotating a phone to landscape leaves an orphaned open sheet).
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeMenu();
+    };
+    const onResize = () => {
+      if (window.innerWidth >= 1024) closeMenu();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [menuOpen, closeMenu]);
 
   // Scroll-spy: highlight whichever section's top has most recently crossed
   // a "reading line" near the top of the viewport. This is robust to
@@ -70,9 +91,12 @@ export default function Nav({ isDetailView = false }: { isDetailView?: boolean }
   }, [isDetailView]);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4">
+    <header className="fixed top-0 inset-x-0 z-50 px-4 pt-4">
+      {/* Desktop: the full pill. It needs ~780px of room, so anything narrower
+          gets the compact bar + menu sheet below instead of a nav that
+          overflows the screen on both sides. */}
       <nav
-        className={`flex items-center gap-1 rounded-full px-2 py-2 transition-all duration-300 ${
+        className={`hidden lg:flex mx-auto w-fit items-center gap-1 rounded-full px-2 py-2 transition-all duration-300 ${
           scrolled ? 'glass-panel shadow-lg shadow-black/40' : 'bg-transparent'
         }`}
       >
@@ -107,6 +131,74 @@ export default function Nav({ isDetailView = false }: { isDetailView?: boolean }
           Hire me
         </a>
       </nav>
+
+      {/* Mobile / tablet */}
+      <div className="lg:hidden relative mx-auto w-full max-w-md">
+        <div
+          className={`relative z-10 flex items-center justify-between rounded-full pl-4 pr-2 py-2 transition-all duration-300 ${
+            scrolled || menuOpen ? 'glass-panel shadow-lg shadow-black/40' : 'bg-transparent'
+          }`}
+        >
+          <a href="#top" className="font-display font-semibold text-sm text-white/90" onClick={closeMenu}>
+            FA<span className="text-gradient">.</span>
+          </a>
+
+          <div className="flex items-center gap-2">
+            <a
+              href="#contact"
+              onClick={closeMenu}
+              className="text-sm font-medium px-4 py-1.5 rounded-full bg-[var(--color-accent)] text-black"
+            >
+              Hire me
+            </a>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              className="flex items-center justify-center w-9 h-9 rounded-full border border-white/15 bg-black/40 text-white/80 hover:text-white transition-colors"
+            >
+              {menuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
+            </button>
+          </div>
+        </div>
+
+        {menuOpen && (
+          <>
+            {/* Tap anywhere else to dismiss. */}
+            <div className="fixed inset-0 z-0" onClick={closeMenu} aria-hidden="true" />
+            {/* Near-opaque rather than the usual glass: a full-height sheet of
+                links over the hero is unreadable if the page shows through. */}
+            <nav
+              className="relative z-10 mt-2 rounded-2xl p-2 shadow-xl shadow-black/50 border border-white/10"
+              style={{ background: 'color-mix(in srgb, var(--color-bg) 94%, transparent)', backdropFilter: 'blur(20px)' }}
+            >
+              {LINKS.map((link) => {
+                const isActive = activeId === link.id;
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={closeMenu}
+                    aria-current={isActive ? 'true' : undefined}
+                    className={`flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm transition-colors ${
+                      isActive ? 'text-white bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full shrink-0"
+                      style={{
+                        background: isActive ? 'var(--color-accent)' : 'color-mix(in srgb, white 20%, transparent)',
+                      }}
+                    />
+                    {link.label}
+                  </a>
+                );
+              })}
+            </nav>
+          </>
+        )}
+      </div>
     </header>
   );
 }

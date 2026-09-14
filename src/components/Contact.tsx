@@ -1,11 +1,12 @@
-import { SiFacebook, SiInstagram, SiGithub } from 'react-icons/si';
+import { SiInstagram, SiGithub } from 'react-icons/si';
+import { FiLinkedin } from 'react-icons/fi';
 import StarBorder from '../blocks/Components/StarBorder/StarBorder';
 import ShinyText from '../blocks/TextAnimations/ShinyText/ShinyText';
 
 const SOCIALS = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/farezyrahman/', Icon: FiLinkedin },
   { label: 'GitHub', href: 'https://github.com/Farezyrahman', Icon: SiGithub },
-  { label: 'Facebook', href: 'https://fb.com/farezyrahman', Icon: SiFacebook },
-  { label: 'Instagram', href: 'https://instagram.com/farezyrahman', Icon: SiInstagram },
+  { label: 'Instagram', href: 'https://instagram.com/farezy_rahman', Icon: SiInstagram },
 ];
 
 export default function Contact() {
@@ -25,7 +26,7 @@ export default function Contact() {
           <span className="font-medium">farezy111@gmail.com</span>
         </StarBorder>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3">
           {SOCIALS.map(({ label, href, Icon }) => (
             <a
               key={label}
@@ -33,9 +34,10 @@ export default function Contact() {
               target="_blank"
               rel="noreferrer"
               aria-label={label}
-              className="w-11 h-11 rounded-full glass-panel flex items-center justify-center text-white/60 hover:text-white hover:border-white/30 transition-colors"
+              className="inline-flex items-center gap-2 h-11 px-4 rounded-full glass-panel text-sm text-white/70 hover:text-white hover:border-white/30 transition-colors"
             >
-              <Icon size={18} />
+              <Icon size={17} />
+              {label}
             </a>
           ))}
         </div>

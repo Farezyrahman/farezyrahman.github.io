@@ -59,7 +59,7 @@ export default function CourseworkDetail({ slug }: { slug: string }) {
               <div className="mb-10">
                 <p className="kicker mb-4">Overview</p>
                 {item.overview.map((p, i) => (
-                  <p key={i} className="text-white/65 leading-relaxed mb-4 text-justify hyphens-auto">
+                  <p key={i} className="text-white/65 leading-relaxed mb-4 sm:text-justify hyphens-auto">
                     {p}
                   </p>
                 ))}

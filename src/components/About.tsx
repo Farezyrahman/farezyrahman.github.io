@@ -66,7 +66,7 @@ export default function About() {
             </GradientText>
             .
           </h2>
-          <p className="text-white/60 leading-relaxed mb-4 text-justify hyphens-auto">
+          <p className="text-white/60 leading-relaxed mb-4 sm:text-justify hyphens-auto">
             I'm a final-year Computer Science student at Universiti Teknologi Malaysia, specialising
             in Graphics and Multimedia Software, with hands-on experience across VR/XR development,
             applied machine learning, and full-stack backend systems. My Final Year Project is a VR
@@ -74,7 +74,7 @@ export default function About() {
             materials to a kite flying in the wind — and it's what got me hooked on building
             immersive, hands-on experiences rather than just flat screens.
           </p>
-          <p className="text-white/60 leading-relaxed mb-4 text-justify hyphens-auto">
+          <p className="text-white/60 leading-relaxed mb-4 sm:text-justify hyphens-auto">
             During a software development internship at Ace Star Tech Software Integration, I rotated
             across three very different builds: an AI pipeline that turns 2D floor plans into
             interactive 3D models, a PostgreSQL-backed e-invoicing platform aligned with Malaysia's
@@ -82,7 +82,7 @@ export default function About() {
             voice. I like projects where a user can immediately see and touch the result of the
             underlying tech.
           </p>
-          <p className="text-white/60 leading-relaxed mb-8 text-justify hyphens-auto">
+          <p className="text-white/60 leading-relaxed mb-8 sm:text-justify hyphens-auto">
             Outside the lab, I lead the technical crew for UTM's XR exchange programs (most recently
             MEXRA '25 at the University of Tokyo) and shoot part-time as a photographer &amp;
             videographer for our university's creative club — sitting on its photo &amp; video
@@ -101,7 +101,10 @@ export default function About() {
                     <span className="font-mono text-[11px] text-[var(--color-accent-cool)] whitespace-nowrap">
                       {edu.period}
                     </span>
-                    <span className="text-white/20" aria-hidden="true">
+                    {/* On a phone the school name wraps to its own line, which
+                        would leave this separator dangling at the end of the
+                        date — so it only appears when the two sit together. */}
+                    <span className="text-white/20 hidden sm:inline" aria-hidden="true">
                       &middot;
                     </span>
                     <p className="text-xs text-white/50">{edu.school}</p>
